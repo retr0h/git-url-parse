@@ -19,3 +19,30 @@
 // DEALINGS IN THE SOFTWARE.
 
 package github
+
+import (
+	"log/slog"
+)
+
+// URL struct containing parsed URL fields.
+// TODO: move this out into higer level api
+type URL struct {
+	Branch string
+	Host   string
+	HREF   string
+	Owner  string
+	Path   string
+	// Port  string
+	Protocol string
+	// Protocols []string
+	Provider string
+	Repo     string
+	Resource string
+	// Token string
+	// User  string
+}
+
+// GitHub implementation responsible for GitHub operations.
+type GitHub struct {
+	logger *slog.Logger
+}
