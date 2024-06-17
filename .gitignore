@@ -1,0 +1,7 @@
+__pycache__
+cobertura.xml
+cover.out
+dist/
+result.xml
+.task/
+test/integration/tmp/
