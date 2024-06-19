@@ -1,5 +1,5 @@
 [![release](https://img.shields.io/github/release/retr0h/git-url-parse.svg?style=for-the-badge)](https://github.com/retr0h/git-url-parse/releases/latest)
-[![codecov](https://img.shields.io/codecov/c/github/retr0h/git-url-parse?token=clAMnFQCEQ&style=for-the-badge)](https://codecov.io/gh/retr0h/git-url-parse)
+[![codecov](https://img.shields.io/codecov/c/github/retr0h/git-url-parse?token=9EVSGDDEJJ&style=for-the-badge)](https://codecov.io/gh/retr0h/git-url-parse)
 [![go report card](https://goreportcard.com/badge/github.com/retr0h/git-url-parse?style=for-the-badge)](https://goreportcard.com/report/github.com/retr0h/git-url-parse)
 [![license](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=for-the-badge)](LICENSE)
 [![build](https://img.shields.io/github/actions/workflow/status/retr0h/git-url-parse/go.yml?style=for-the-badge)](https://github.com/retr0h/git-url-parse/actions/workflows/go.yml)
