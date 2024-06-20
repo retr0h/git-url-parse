@@ -30,6 +30,7 @@ import (
 var patterns = []string{
 	`^(?P<scheme>https?)://(?P<resource>[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+)(/(?:tree|blob)/(?P<branch>[^/]+)(?P<path>/.*)?)?$`,
 	`^(?P<scheme>https?)://(?P<resource>raw\.githubusercontent\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<branch>[^/]+)(?P<path>/.*)$`,
+	`^(?P<scheme>git)@(?P<resource>github\.com):(?P<owner>[^/]+)/(?P<repo>[^/]+)\.git$`,
 }
 
 // New factory to create a new GitHub instance.

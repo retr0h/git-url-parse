@@ -117,11 +117,33 @@ func (suite *GitHubPublicTestSuite) TestParseOk() {
 				href:     "https://raw.githubusercontent.com/retr0h/git-url-parse/main/files/file0.json",
 			},
 		},
+		{
+			input: "https://www.github.com/retr0h/git-url-parse",
+			want: &url{
+				protocol: "https",
+				resource: "www.github.com",
+				owner:    "retr0h",
+				repo:     "git-url-parse",
+				path:     "",
+				branch:   "",
+				provider: "github",
+				href:     "https://www.github.com/retr0h/git-url-parse",
+			},
+		},
+		{
+			input: "git@github.com:retr0h/git-url-parse.git",
+			want: &url{
+				protocol: "git",
+				resource: "github.com",
+				owner:    "retr0h",
+				repo:     "git-url-parse",
+				path:     "",
+				branch:   "",
+				provider: "github",
+				href:     "git@github.com:retr0h/git-url-parse.git",
+			},
+		},
 	}
-
-	// "git@github.com:retr0h/git-url-parse.git"
-	// "git@github.com:foobar/retr0h/git-url-parse.git"
-	// "https://www.github.com/retr0h/git-url-parse"
 
 	for _, tc := range tests {
 		var got internal.RepositoryURLManager
@@ -153,6 +175,13 @@ func (suite *GitHubPublicTestSuite) TestParseFails() {
 		{
 			input: "bogus://url/",
 			want:  fmt.Sprintf("could match url: %s to any pattern", "bogus://url/"),
+		},
+		{
+			input: "git@github.com:foobar/retr0h/git-url-parse.git",
+			want: fmt.Sprintf(
+				"could match url: %s to any pattern",
+				"git@github.com:foobar/retr0h/git-url-parse.git",
+			),
 		},
 	}
 
