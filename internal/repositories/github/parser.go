@@ -24,6 +24,12 @@ import (
 	"fmt"
 	"log/slog"
 	"regexp"
+
+	"github.com/retr0h/git-url-parse/pkg/api"
+)
+
+const (
+	providerName string = "github"
 )
 
 // ChatGPT-4 generated regexp
@@ -33,18 +39,10 @@ var patterns = []string{
 	`^(?P<scheme>git)@(?P<resource>github\.com):(?P<owner>[^/]+)/(?P<repo>[^/]+)\.git$`,
 }
 
-// New factory to create a new GitHub instance.
-func New(
-	logger *slog.Logger,
-) *GitHub {
-	return &GitHub{
-		logger: logger,
-	}
-}
-
 // Parse the provided GitHub URL.
-func (gh *GitHub) Parse(url string) (*URL, error) {
-	response := &URL{}
+func (gh *GitHub) Parse(url string) (*api.Repository, error) {
+	response := &api.Repository{}
+
 	for _, pattern := range patterns {
 		re := regexp.MustCompile(pattern)
 		matches := re.FindStringSubmatch(url)
@@ -57,9 +55,10 @@ func (gh *GitHub) Parse(url string) (*URL, error) {
 		)
 
 		if matches != nil {
-			response = &URL{
+			response = &api.Repository{
 				Protocol: mm["scheme"],
 				Host:     mm["resource"],
+				Provider: providerName,
 				Resource: mm["resource"],
 				Owner:    mm["owner"],
 				Repo:     mm["repo"],
@@ -70,7 +69,7 @@ func (gh *GitHub) Parse(url string) (*URL, error) {
 		}
 	}
 
-	if (URL{}) == *response {
+	if (api.Repository{}) == *response {
 		return nil, fmt.Errorf("could match url: %s to any pattern", url)
 	}
 

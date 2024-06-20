@@ -67,18 +67,6 @@ const config = {
           src: 'img/logo.png',
         },
         items: [
-          {
-            type: 'dropdown',
-            label: 'Resources',
-            position: 'left',
-            items: [
-              {
-                type: 'doc',
-                label: 'File',
-                docId: 'resources/file',
-              },
-            ],
-          },
           // {
           //   type: 'localeDropdown',
           //   position: 'left',

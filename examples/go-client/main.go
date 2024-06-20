@@ -1,16 +1,3 @@
----
-sidebar_position: 4
----
-
-# Usage
-
-## Package
-
-### Parse a Repository
-
-See example client in `examples/go-client/`.
-
-```go
 package main
 
 import (
@@ -65,4 +52,3 @@ func main() {
 	logger.Info(repo.GetBranchName())
 	logger.Info(repo.GetProviderName())
 }
-```

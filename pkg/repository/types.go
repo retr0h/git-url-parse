@@ -18,26 +18,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package internal
+package repository
 
 import (
-	"github.com/retr0h/git-url-parse/internal/github"
+	"log/slog"
+
+	"github.com/retr0h/git-url-parse/internal"
 )
 
-// RepositoryManager manager responsible for Repository operations.
-type RepositoryManager interface {
-	Parse(url string) (*github.URL, error)
-}
+// Repository implementation responsible for Repository operations.
+type Repository struct {
+	logger *slog.Logger
 
-// RepositoryURLManager manager responsible for Get URL operations.
-type RepositoryURLManager interface {
-	GetBranchName() string
-	GetHREF() string
-	GetHostName() string
-	GetOwnerName() string
-	GetPath() string
-	GetProtocol() string
-	GetProviderName() string
-	GetRepoName() string
-	GetResourceName() string
+	parser internal.ParserManager
+	url    string
 }

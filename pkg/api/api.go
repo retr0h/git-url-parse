@@ -18,31 +18,49 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package github
+package api
 
-import (
-	"log/slog"
-)
-
-// URL struct containing parsed URL fields.
-// TODO: move this out into higer level api
-type URL struct {
-	Branch string
-	Host   string
-	HREF   string
-	Owner  string
-	Path   string
-	// Port  string
-	Protocol string
-	// Protocols []string
-	Provider string
-	Repo     string
-	Resource string
-	// Token string
-	// User  string
+// GetBranchName the repo's branch name.
+func (r *Repository) GetBranchName() string {
+	return r.Branch
 }
 
-// GitHub implementation responsible for GitHub operations.
-type GitHub struct {
-	logger *slog.Logger
+// GetHostName the repo's domain.
+func (r *Repository) GetHostName() string {
+	return r.Host
+}
+
+// GetHREF the repo's HREF.
+func (r *Repository) GetHREF() string {
+	return r.HREF
+}
+
+// GetOwnerName the repo's owner.
+func (r *Repository) GetOwnerName() string {
+	return r.Owner
+}
+
+// GetPath the repo's path.
+func (r *Repository) GetPath() string {
+	return r.Path
+}
+
+// GetProtocol the repo's protocol.
+func (r *Repository) GetProtocol() string {
+	return r.Protocol
+}
+
+// GetProviderName the repo's provider.
+func (r *Repository) GetProviderName() string {
+	return r.Provider
+}
+
+// GetRepoName the repo's name.
+func (r *Repository) GetRepoName() string {
+	return r.Repo
+}
+
+// GetResourceName the repo's resource name aka host name.
+func (r *Repository) GetResourceName() string {
+	return r.Resource
 }

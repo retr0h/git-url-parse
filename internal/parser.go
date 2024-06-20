@@ -18,49 +18,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package github
+package internal
 
-// GetBranchName the repo's branch name.
-func (u *URL) GetBranchName() string {
-	return u.Branch
-}
+import (
+	"github.com/retr0h/git-url-parse/pkg/api"
+)
 
-// GetHostName the repo's domain.
-func (u *URL) GetHostName() string {
-	return u.Host
-}
-
-// GetHREF the repo's HREF.
-func (u *URL) GetHREF() string {
-	return u.HREF
-}
-
-// GetOwnerName the repo's owner.
-func (u *URL) GetOwnerName() string {
-	return u.Owner
-}
-
-// GetPath the repo's path.
-func (u *URL) GetPath() string {
-	return u.Path
-}
-
-// GetProtocol the repo's protocol.
-func (u *URL) GetProtocol() string {
-	return u.Protocol
-}
-
-// GetProviderName the repo's provider.
-func (u *URL) GetProviderName() string {
-	return "github"
-}
-
-// GetRepoName the repo's name.
-func (u *URL) GetRepoName() string {
-	return u.Repo
-}
-
-// GetResourceName the repo's resource name aka host name.
-func (u *URL) GetResourceName() string {
-	return u.Resource
+// ParserManager manager responsible for each Repository parsing operations.
+type ParserManager interface {
+	IsGitHub(host string) bool
+	Parse(url string) (*api.Repository, error)
 }
