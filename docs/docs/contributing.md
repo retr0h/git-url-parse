@@ -102,10 +102,6 @@ All kinds of contributions are welcome, whether its a typo fix or a shiny new
 feature. You can also contribute by upvoting/commenting on issues or helping to
 answer questions.
 
-> I'm stuck, where can I get help?
-
-If you have questions, feel free open a [Discussion][] on GitHub.
-
 <!-- prettier-ignore-start -->
 [git-url-parse]: https://github.com/retr0h/git-url-parse
 [Go]: https://go.dev
@@ -114,7 +110,6 @@ If you have questions, feel free open a [Discussion][] on GitHub.
 [golangci-lint]: https://golangci-lint.run
 [Prettier]: https://prettier.io/
 [Docusaurus]: https://docusaurus.io
-[Discussion]: https://github.com/retr0h/go-gilt/discussions
 [Conventional Commits]: https://www.conventionalcommits.org
 [Bats]: https://github.com/bats-core/bats-core
 <!-- prettier-ignore-end -->
