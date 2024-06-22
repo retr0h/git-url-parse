@@ -18,14 +18,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package internal
+package gitlab
 
 import (
-	"github.com/retr0h/git-url-parse/pkg/api"
+	"log/slog"
 )
 
-// ParserManager manager responsible for each Repository parsing operations.
-type ParserManager interface {
-	ShouldParse(host string) bool
-	Parse(url string) (*api.Repository, error)
+// GitLab implementation responsible for GitLab operations.
+type GitLab struct {
+	logger *slog.Logger
 }
