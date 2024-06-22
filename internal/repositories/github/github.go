@@ -39,7 +39,7 @@ func New(
 	}
 }
 
-// IsGitHub determine if the provided URL belongs to GitHub.
-func (gh *GitHub) IsGitHub(host string) bool {
+// ShouldParse determine if the provided URL belongs to GitHub.
+func (gh *GitHub) ShouldParse(host string) bool {
 	return host == defaultHost || host == rawHost || host == wwwHost
 }

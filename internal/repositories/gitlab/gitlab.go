@@ -18,14 +18,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package internal
+package gitlab
 
 import (
-	"github.com/retr0h/git-url-parse/pkg/api"
+	"log/slog"
+	"strings"
 )
 
-// ParserManager manager responsible for each Repository parsing operations.
-type ParserManager interface {
-	ShouldParse(host string) bool
-	Parse(url string) (*api.Repository, error)
+const (
+	defaultHost string = "gitlab"
+)
+
+// New factory to create a new GitLab instance.
+func New(
+	logger *slog.Logger,
+) *GitLab {
+	return &GitLab{
+		logger: logger,
+	}
+}
+
+// ShouldParse determine if the provided URL belongs to GitLab.
+func (gl *GitLab) ShouldParse(host string) bool {
+	return strings.Contains(host, defaultHost)
 }

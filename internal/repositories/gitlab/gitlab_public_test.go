@@ -18,7 +18,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package github_test
+package gitlab_test
 
 import (
 	"log/slog"
@@ -29,10 +29,10 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/retr0h/git-url-parse/internal"
-	"github.com/retr0h/git-url-parse/internal/repositories/github"
+	"github.com/retr0h/git-url-parse/internal/repositories/gitlab"
 )
 
-type GitHubPublicTestSuite struct {
+type GitLabPublicTestSuite struct {
 	suite.Suite
 
 	rm internal.ParserManager
@@ -40,13 +40,13 @@ type GitHubPublicTestSuite struct {
 	logger *slog.Logger
 }
 
-func (suite *GitHubPublicTestSuite) SetupTest() {
+func (suite *GitLabPublicTestSuite) SetupTest() {
 	suite.logger = slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	suite.rm = github.New(suite.logger)
+	suite.rm = gitlab.New(suite.logger)
 }
 
-func (suite *GitHubPublicTestSuite) TestShouldParse() {
+func (suite *GitLabPublicTestSuite) TestShouldParse() {
 	type test struct {
 		input string
 		want  bool
@@ -54,15 +54,11 @@ func (suite *GitHubPublicTestSuite) TestShouldParse() {
 
 	tests := []test{
 		{
-			input: "github.com",
+			input: "gitlab.com",
 			want:  true,
 		},
 		{
-			input: "raw.githubusercontent.com",
-			want:  true,
-		},
-		{
-			input: "www.github.com",
+			input: "gitlab.example.com",
 			want:  true,
 		},
 		// failure cases
@@ -89,6 +85,6 @@ func (suite *GitHubPublicTestSuite) TestShouldParse() {
 
 // In order for `go test` to run this suite, we need to create
 // a normal test function and pass our suite to suite.Run.
-func TestGitHubPublicTestSuite(t *testing.T) {
-	suite.Run(t, new(GitHubPublicTestSuite))
+func TestGitLabPublicTestSuite(t *testing.T) {
+	suite.Run(t, new(GitLabPublicTestSuite))
 }

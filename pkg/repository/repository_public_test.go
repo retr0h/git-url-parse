@@ -30,6 +30,7 @@ import (
 
 	"github.com/retr0h/git-url-parse/internal"
 	"github.com/retr0h/git-url-parse/internal/repositories/github"
+	"github.com/retr0h/git-url-parse/internal/repositories/gitlab"
 	"github.com/retr0h/git-url-parse/pkg/repository"
 )
 
@@ -59,6 +60,11 @@ func (suite *RepositoryPublicTestSuite) TestRegisterParser() {
 		{
 			input:   "https://github.com/retr0h/foo",
 			want:    &github.GitHub{},
+			wantErr: false,
+		},
+		{
+			input:   "https://gitlab.com/retr0h/foo",
+			want:    &gitlab.GitLab{},
 			wantErr: false,
 		},
 		// failure cases
@@ -117,7 +123,7 @@ func (suite *RepositoryPublicTestSuite) TestParse() {
 		if tc.wantErr {
 			assert.Error(suite.T(), err)
 		} else {
-			assert.Equal(suite.T(), got.GetProviderName(), tc.want)
+			assert.Equal(suite.T(), tc.want, got.GetProviderName())
 			assert.NoError(suite.T(), err)
 
 		}

@@ -28,6 +28,7 @@ import (
 
 	"github.com/retr0h/git-url-parse/internal"
 	"github.com/retr0h/git-url-parse/internal/repositories/github"
+	"github.com/retr0h/git-url-parse/internal/repositories/gitlab"
 	"github.com/retr0h/git-url-parse/pkg"
 )
 
@@ -49,11 +50,14 @@ func (r *Repository) RegisterParser(url string) error {
 	}
 
 	var gh internal.ParserManager = github.New(r.logger)
+	var gl internal.ParserManager = gitlab.New(r.logger)
 	r.SetURL(url)
 
 	// add additional parsers
-	if gh.IsGitHub(host) {
+	if gh.ShouldParse(host) {
 		r.SetParser(gh)
+	} else if gl.ShouldParse(host) {
+		r.SetParser(gl)
 	} else {
 		return fmt.Errorf("could not find parser for host: %s", host)
 	}
