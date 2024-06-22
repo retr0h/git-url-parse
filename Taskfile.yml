@@ -23,7 +23,6 @@ tasks:
       - go install github.com/golang/mock/mockgen@latest
       - go install github.com/boumenot/gocover-cobertura@latest
       - go install mvdan.cc/gofumpt@latest
-      - go install github.com/goreleaser/goreleaser@latest
 
   deps:check:
     desc: Check dependencies needed for development
@@ -108,8 +107,3 @@ tasks:
       # https://github.com/mvdan/gofumpt/issues/114
       - test -z "$(gofumpt -d -e . | tee /dev/stderr)"
       - test -z "$(golines -l --dry-run --base-formatter=gofumpt -w .)"
-
-  build:
-    desc: Build ARCH compatible binary.
-    cmds:
-      - goreleaser release --snapshot --clean

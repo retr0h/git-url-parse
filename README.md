@@ -26,9 +26,8 @@ old projects.
 
 ## Documentation
 
-[Installation][] | [Usage][] | [Documentation][]
+[Usage][] | [Documentation][]
 
-[Installation]: https://retr0h.github.io/git-url-parse/installation
 [Usage]: https://retr0h.github.io/git-url-parse/usage
 [Documentation]: https://retr0h.github.io/git-url-parse/
 
