@@ -28,6 +28,7 @@ type RepositoryManager interface {
 	GetOwnerName() string
 	GetPath() string
 	GetProtocol() string
+	GetProtocols() []string
 	GetProviderName() string
 	GetRepoName() string
 	GetResourceName() string

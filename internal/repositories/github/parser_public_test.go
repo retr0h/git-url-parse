@@ -50,14 +50,15 @@ func (suite *ParserPublicTestSuite) SetupTest() {
 
 func (suite *ParserPublicTestSuite) TestParse() {
 	type repository struct {
-		branch   string
-		href     string
-		owner    string
-		path     string
-		protocol string
-		provider string
-		repo     string
-		resource string
+		branch    string
+		href      string
+		owner     string
+		path      string
+		protocol  string
+		protocols []string
+		provider  string
+		repo      string
+		resource  string
 	}
 
 	type test struct {
@@ -70,84 +71,90 @@ func (suite *ParserPublicTestSuite) TestParse() {
 		{
 			input: "https://github.com/owner/repository",
 			want: &repository{
-				protocol: "https",
-				resource: "github.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "github",
-				href:     "https://github.com/owner/repository",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "github.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "github",
+				href:      "https://github.com/owner/repository",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://github.com/owner/repository/blob/main/files/file0.json",
 			want: &repository{
-				protocol: "https",
-				resource: "github.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "/files/file0.json",
-				branch:   "main",
-				provider: "github",
-				href:     "https://github.com/owner/repository/blob/main/files/file0.json",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "github.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "/files/file0.json",
+				branch:    "main",
+				provider:  "github",
+				href:      "https://github.com/owner/repository/blob/main/files/file0.json",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://github.com/owner/repository/tree/main/files",
 			want: &repository{
-				protocol: "https",
-				resource: "github.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "/files",
-				branch:   "main",
-				provider: "github",
-				href:     "https://github.com/owner/repository/tree/main/files",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "github.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "/files",
+				branch:    "main",
+				provider:  "github",
+				href:      "https://github.com/owner/repository/tree/main/files",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://raw.githubusercontent.com/owner/repository/main/files/file0.json",
 			want: &repository{
-				protocol: "https",
-				resource: "raw.githubusercontent.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "/files/file0.json",
-				branch:   "main",
-				provider: "github",
-				href:     "https://raw.githubusercontent.com/owner/repository/main/files/file0.json",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "raw.githubusercontent.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "/files/file0.json",
+				branch:    "main",
+				provider:  "github",
+				href:      "https://raw.githubusercontent.com/owner/repository/main/files/file0.json",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://www.github.com/owner/repository",
 			want: &repository{
-				protocol: "https",
-				resource: "www.github.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "github",
-				href:     "https://www.github.com/owner/repository",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "www.github.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "github",
+				href:      "https://www.github.com/owner/repository",
 			},
 			wantErr: false,
 		},
 		{
 			input: "git@github.com:owner/repository.git",
 			want: &repository{
-				protocol: "git",
-				resource: "github.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "github",
-				href:     "git@github.com:owner/repository.git",
+				protocol:  "git",
+				protocols: []string{"git"},
+				resource:  "github.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "github",
+				href:      "git@github.com:owner/repository.git",
 			},
 			wantErr: false,
 		},
@@ -178,6 +185,7 @@ func (suite *ParserPublicTestSuite) TestParse() {
 		} else {
 			require.NoError(suite.T(), err)
 			assert.Equal(suite.T(), tc.want.protocol, got.GetProtocol())
+			assert.Equal(suite.T(), tc.want.protocols, got.GetProtocols())
 			assert.Equal(suite.T(), tc.want.resource, got.GetResourceName())
 			assert.Equal(suite.T(), tc.want.href, got.GetHREF())
 			assert.Equal(suite.T(), tc.want.owner, got.GetOwnerName())

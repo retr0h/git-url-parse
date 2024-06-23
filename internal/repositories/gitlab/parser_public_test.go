@@ -50,14 +50,15 @@ func (suite *ParserPublicTestSuite) SetupTest() {
 
 func (suite *ParserPublicTestSuite) TestParse() {
 	type repository struct {
-		branch   string
-		href     string
-		owner    string
-		path     string
-		protocol string
-		provider string
-		repo     string
-		resource string
+		branch    string
+		href      string
+		owner     string
+		path      string
+		protocol  string
+		protocols []string
+		provider  string
+		repo      string
+		resource  string
 	}
 
 	type test struct {
@@ -70,126 +71,135 @@ func (suite *ParserPublicTestSuite) TestParse() {
 		{
 			input: "https://gitlab.com/owner/repository",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/repository",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/repository",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/repository/-/blob/main/stable/acs-engine-autoscaler/Chart.yaml",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "stable/acs-engine-autoscaler/Chart.yaml",
-				branch:   "main",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/repository/-/blob/main/stable/acs-engine-autoscaler/Chart.yaml",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "stable/acs-engine-autoscaler/Chart.yaml",
+				branch:    "main",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/repository/-/blob/main/stable/acs-engine-autoscaler/Chart.yaml",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/repository/-/blob/dev/README.md",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "README.md",
-				branch:   "dev",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/repository/-/blob/dev/README.md",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "README.md",
+				branch:    "dev",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/repository/-/blob/dev/README.md",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/repository/-/tree/dev",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "dev",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/repository/-/tree/dev",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "dev",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/repository/-/tree/dev",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/repository/-/blob/v0.0.0/README.md",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "README.md",
-				branch:   "v0.0.0",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/repository/-/blob/v0.0.0/README.md",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "README.md",
+				branch:    "v0.0.0",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/repository/-/blob/v0.0.0/README.md",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/repository/-/raw/main/stable/acs-engine-autoscaler/Chart.yaml",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "stable/acs-engine-autoscaler/Chart.yaml",
-				branch:   "main",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/repository/-/raw/main/stable/acs-engine-autoscaler/Chart.yaml",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "stable/acs-engine-autoscaler/Chart.yaml",
+				branch:    "main",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/repository/-/raw/main/stable/acs-engine-autoscaler/Chart.yaml",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/subgroup/repository.git",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/subgroup/repository.git",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/subgroup/repository.git",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.com/owner/subgroup/subsubgroup/repository.git",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "gitlab",
-				href:     "https://gitlab.com/owner/subgroup/subsubgroup/repository.git",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "gitlab",
+				href:      "https://gitlab.com/owner/subgroup/subsubgroup/repository.git",
 			},
 			wantErr: false,
 		},
 		{
 			input: "https://gitlab.example.com/owner/repository",
 			want: &repository{
-				protocol: "https",
-				resource: "gitlab.example.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "gitlab",
-				href:     "https://gitlab.example.com/owner/repository",
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "gitlab.example.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "gitlab",
+				href:      "https://gitlab.example.com/owner/repository",
 			},
 			wantErr: false,
 		},
@@ -197,14 +207,15 @@ func (suite *ParserPublicTestSuite) TestParse() {
 		{
 			input: "git@gitlab.com:owner/repository.git",
 			want: &repository{
-				protocol: "git",
-				resource: "gitlab.com",
-				owner:    "owner",
-				repo:     "repository",
-				path:     "",
-				branch:   "",
-				provider: "gitlab",
-				href:     "git@gitlab.com:owner/repository.git",
+				protocol:  "git",
+				protocols: []string{"git"},
+				resource:  "gitlab.com",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "",
+				branch:    "",
+				provider:  "gitlab",
+				href:      "git@gitlab.com:owner/repository.git",
 			},
 			wantErr: false,
 		},
@@ -235,6 +246,7 @@ func (suite *ParserPublicTestSuite) TestParse() {
 		} else {
 			require.NoError(suite.T(), err)
 			assert.Equal(suite.T(), tc.want.protocol, got.GetProtocol())
+			assert.Equal(suite.T(), tc.want.protocols, got.GetProtocols())
 			assert.Equal(suite.T(), tc.want.resource, got.GetResourceName())
 			assert.Equal(suite.T(), tc.want.href, got.GetHREF())
 			assert.Equal(suite.T(), tc.want.owner, got.GetOwnerName())

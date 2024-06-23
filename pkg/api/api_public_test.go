@@ -35,15 +35,16 @@ type APIPublicTestSuite struct {
 
 	rm pkg.RepositoryManager
 
-	branch   string
-	host     string
-	href     string
-	owner    string
-	path     string
-	protocol string
-	provider string
-	repo     string
-	resource string
+	branch    string
+	host      string
+	href      string
+	owner     string
+	path      string
+	protocol  string
+	protocols []string
+	provider  string
+	repo      string
+	resource  string
 }
 
 func (suite *APIPublicTestSuite) SetupTest() {
@@ -53,6 +54,7 @@ func (suite *APIPublicTestSuite) SetupTest() {
 	suite.owner = "owner"
 	suite.path = "path"
 	suite.protocol = "protocol"
+	suite.protocols = []string{"protocol"}
 	suite.provider = "provider"
 	suite.repo = "repo"
 	suite.resource = "resource"
@@ -104,6 +106,21 @@ func (suite *APIPublicTestSuite) TestGetProtocolOk() {
 	got := suite.rm.GetProtocol()
 
 	assert.Equal(suite.T(), suite.protocol, got)
+}
+
+func (suite *APIPublicTestSuite) TestGetProtocolsOk() {
+	got := suite.rm.GetProtocols()
+
+	assert.Equal(suite.T(), suite.protocols, got)
+}
+
+func (suite *APIPublicTestSuite) TestGetProtocolsWithMultiProtocolsOk() {
+	suite.rm = &api.Repository{
+		Protocol: "git+ssh",
+	}
+	got := suite.rm.GetProtocols()
+
+	assert.Equal(suite.T(), []string{"git", "ssh"}, got)
 }
 
 func (suite *APIPublicTestSuite) TestGetProviderNameOk() {
