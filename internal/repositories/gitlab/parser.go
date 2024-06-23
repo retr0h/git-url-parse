@@ -46,8 +46,6 @@ var patterns = []string{
 
 // Parse the provided GitLab URL.
 func (gh *GitLab) Parse(url string) (*api.Repository, error) {
-	response := &api.Repository{}
-
 	for _, pattern := range patterns {
 		re := regexp.MustCompile(pattern)
 		matches := re.FindStringSubmatch(url)
@@ -60,7 +58,7 @@ func (gh *GitLab) Parse(url string) (*api.Repository, error) {
 		)
 
 		if matches != nil {
-			response = &api.Repository{
+			return &api.Repository{
 				Protocol: mm["scheme"],
 				Host:     mm["resource"],
 				Provider: providerName,
@@ -70,15 +68,11 @@ func (gh *GitLab) Parse(url string) (*api.Repository, error) {
 				Path:     mm["path"],
 				Branch:   mm["branch"],
 				HREF:     url,
-			}
+			}, nil
 		}
 	}
 
-	if (api.Repository{}) == *response {
-		return nil, fmt.Errorf("could match url: %s to any pattern", url)
-	}
-
-	return response, nil
+	return nil, fmt.Errorf("could match url: %s to any pattern", url)
 }
 
 func makeMatchMap(re *regexp.Regexp, matches []string) map[string]string {
