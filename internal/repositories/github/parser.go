@@ -34,8 +34,8 @@ const (
 
 // ChatGPT-4 generated regexp
 var patterns = []string{
-	`^(?P<scheme>https?)://(?P<resource>[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+)(/(?:tree|blob)/(?P<branch>[^/]+)(?P<path>/.*)?)?$`,
-	`^(?P<scheme>https?)://(?P<resource>raw\.githubusercontent\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<branch>[^/]+)(?P<path>/.*)$`,
+	`^(?P<scheme>https?)://(?P<resource>[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+)(/(?:tree|blob)/(?P<branch>[^/]+)/(?P<path>.*)?)?$`,
+	`^(?P<scheme>https?)://(?P<resource>raw\.githubusercontent\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<branch>[^/]+)/(?P<path>.*)$`,
 	`^(?P<scheme>git)@(?P<resource>github\.com):(?P<owner>[^/]+)/(?P<repo>[^/]+)\.git$`,
 }
 
