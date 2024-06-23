@@ -83,6 +83,54 @@ func (suite *ParserPublicTestSuite) TestParse() {
 			},
 			wantErr: false,
 		},
+		// https://github.com/coala/git-url-parse/issues/29
+		{
+			input: "https://github.com/sphinx-doc/sphinx.git",
+			want: &repository{
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "github.com",
+				owner:     "sphinx-doc",
+				repo:      "sphinx",
+				path:      "",
+				branch:    "",
+				provider:  "github",
+				href:      "https://github.com/sphinx-doc/sphinx.git",
+			},
+			wantErr: false,
+		},
+		// https://github.com/retr0h/git-url-parse/issues/33
+		{
+			input: "https://github.com/tterranigma/Stouts.openvpn",
+			want: &repository{
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "github.com",
+				owner:     "tterranigma",
+				repo:      "Stouts.openvpn",
+				path:      "",
+				branch:    "",
+				provider:  "github",
+				href:      "https://github.com/tterranigma/Stouts.openvpn",
+			},
+			wantErr: false,
+		},
+		// https://github.com/retr0h/git-url-parse/issues/33
+		{
+			input: "https://github.com/tterranigma/Stouts.openvpn.git",
+			want: &repository{
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "github.com",
+				owner:     "tterranigma",
+				repo:      "Stouts.openvpn",
+				path:      "",
+				branch:    "",
+				provider:  "github",
+				href:      "https://github.com/tterranigma/Stouts.openvpn.git",
+			},
+			wantErr: false,
+		},
 		{
 			input: "https://github.com/owner/repository/blob/main/files/file0.json",
 			want: &repository{

@@ -34,15 +34,13 @@ const (
 
 // ChatGPT-4 generated regexp
 var patterns = []string{
-	`^(?P<scheme>https?)://(?P<resource>[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+)(/(?:tree|blob)/(?P<branch>[^/]+)/(?P<path>.*)?)?$`,
+	`^(?P<scheme>https?)://(?P<resource>[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+?)(?:\.git)?(/(?:tree|blob)/(?P<branch>[^/]+)/(?P<path>.*)?)?$`,
 	`^(?P<scheme>https?)://(?P<resource>raw\.githubusercontent\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?P<branch>[^/]+)/(?P<path>.*)$`,
 	`^(?P<scheme>git)@(?P<resource>github\.com):(?P<owner>[^/]+)/(?P<repo>[^/]+)\.git$`,
 }
 
 // Parse the provided GitHub URL.
 func (gh *GitHub) Parse(url string) (*api.Repository, error) {
-	response := &api.Repository{}
-
 	for _, pattern := range patterns {
 		re := regexp.MustCompile(pattern)
 		matches := re.FindStringSubmatch(url)
@@ -55,7 +53,7 @@ func (gh *GitHub) Parse(url string) (*api.Repository, error) {
 		)
 
 		if matches != nil {
-			response = &api.Repository{
+			return &api.Repository{
 				Protocol: mm["scheme"],
 				Host:     mm["resource"],
 				Provider: providerName,
@@ -65,15 +63,11 @@ func (gh *GitHub) Parse(url string) (*api.Repository, error) {
 				Path:     mm["path"],
 				Branch:   mm["branch"],
 				HREF:     url,
-			}
+			}, nil
 		}
 	}
 
-	if (api.Repository{}) == *response {
-		return nil, fmt.Errorf("could match url: %s to any pattern", url)
-	}
-
-	return response, nil
+	return nil, fmt.Errorf("could match url: %s to any pattern", url)
 }
 
 func makeMatchMap(re *regexp.Regexp, matches []string) map[string]string {
