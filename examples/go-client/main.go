@@ -44,6 +44,7 @@ func main() {
 	}
 
 	logger.Info(repo.GetProtocol())
+	logger.Info(repo.GetProtocols()[0])
 	logger.Info(repo.GetResourceName())
 	logger.Info(repo.GetHREF())
 	logger.Info(repo.GetOwnerName())
