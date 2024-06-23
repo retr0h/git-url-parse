@@ -25,6 +25,7 @@ import (
 	"log/slog"
 	"regexp"
 
+	"github.com/retr0h/git-url-parse/internal/repositories"
 	"github.com/retr0h/git-url-parse/pkg/api"
 )
 
@@ -44,7 +45,7 @@ func (gh *GitHub) Parse(url string) (*api.Repository, error) {
 	for _, pattern := range patterns {
 		re := regexp.MustCompile(pattern)
 		matches := re.FindStringSubmatch(url)
-		mm := makeMatchMap(re, matches)
+		mm := repositories.MakeMatchMap(re, matches)
 
 		gh.logger.Debug(
 			"matching url",
@@ -68,15 +69,4 @@ func (gh *GitHub) Parse(url string) (*api.Repository, error) {
 	}
 
 	return nil, fmt.Errorf("could match url: %s to any pattern", url)
-}
-
-func makeMatchMap(re *regexp.Regexp, matches []string) map[string]string {
-	mm := make(map[string]string)
-	for i, name := range re.SubexpNames() {
-		if i != 0 && name != "" && i < len(matches) {
-			mm[name] = matches[i]
-		}
-	}
-
-	return mm
 }
