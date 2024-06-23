@@ -20,6 +20,8 @@
 
 package api
 
+import "strings"
+
 // GetBranchName the repo's branch name.
 func (r *Repository) GetBranchName() string {
 	return r.Branch
@@ -48,6 +50,11 @@ func (r *Repository) GetPath() string {
 // GetProtocol the repo's protocol.
 func (r *Repository) GetProtocol() string {
 	return r.Protocol
+}
+
+// GetProtocols the repo's list of protocols.
+func (r *Repository) GetProtocols() []string {
+	return strings.Split(r.Protocol, "+")
 }
 
 // GetProviderName the repo's provider.
