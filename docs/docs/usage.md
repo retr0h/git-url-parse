@@ -12,8 +12,9 @@ See example client in `examples/go-client/`.
 
 Currently supports the following parsers:
 
-- GitHub
-- GitLab
+- Hosted Bitbucket
+- Hosted GitHub
+- Hosted GitLab and Self-Managed
 
 ```go
 package main

@@ -27,6 +27,7 @@ import (
 	giturls "github.com/chainguard-dev/git-urls"
 
 	"github.com/retr0h/git-url-parse/internal"
+	"github.com/retr0h/git-url-parse/internal/repositories/bitbucket"
 	"github.com/retr0h/git-url-parse/internal/repositories/github"
 	"github.com/retr0h/git-url-parse/internal/repositories/gitlab"
 	"github.com/retr0h/git-url-parse/pkg"
@@ -49,12 +50,15 @@ func (r *Repository) RegisterParser(url string) error {
 		return err
 	}
 
+	var bb internal.ParserManager = bitbucket.New(r.logger)
 	var gh internal.ParserManager = github.New(r.logger)
 	var gl internal.ParserManager = gitlab.New(r.logger)
 	r.SetURL(url)
 
 	// add additional parsers
-	if gh.ShouldParse(host) {
+	if bb.ShouldParse(host) {
+		r.SetParser(bb)
+	} else if gh.ShouldParse(host) {
 		r.SetParser(gh)
 	} else if gl.ShouldParse(host) {
 		r.SetParser(gl)

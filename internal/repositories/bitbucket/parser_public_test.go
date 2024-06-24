@@ -18,7 +18,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package github_test
+package bitbucket_test
 
 import (
 	"log/slog"
@@ -30,7 +30,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/retr0h/git-url-parse/internal"
-	"github.com/retr0h/git-url-parse/internal/repositories/github"
+	"github.com/retr0h/git-url-parse/internal/repositories/bitbucket"
 	"github.com/retr0h/git-url-parse/pkg"
 )
 
@@ -45,7 +45,7 @@ type ParserPublicTestSuite struct {
 func (suite *ParserPublicTestSuite) SetupTest() {
 	suite.logger = slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	suite.rm = github.New(suite.logger)
+	suite.rm = bitbucket.New(suite.logger)
 }
 
 func (suite *ParserPublicTestSuite) TestParse() {
@@ -69,156 +69,121 @@ func (suite *ParserPublicTestSuite) TestParse() {
 
 	tests := []test{
 		{
-			input: "https://github.com/owner/repository",
+			input: "https://bitbucket.org/owner/repository",
 			want: &repository{
 				protocol:  "https",
 				protocols: []string{"https"},
-				resource:  "github.com",
+				resource:  "bitbucket.org",
 				owner:     "owner",
 				repo:      "repository",
 				path:      "",
 				branch:    "",
-				provider:  "github",
-				href:      "https://github.com/owner/repository",
-			},
-			wantErr: false,
-		},
-		// https://github.com/coala/git-url-parse/issues/29
-		{
-			input: "https://github.com/sphinx-doc/sphinx.git",
-			want: &repository{
-				protocol:  "https",
-				protocols: []string{"https"},
-				resource:  "github.com",
-				owner:     "sphinx-doc",
-				repo:      "sphinx",
-				path:      "",
-				branch:    "",
-				provider:  "github",
-				href:      "https://github.com/sphinx-doc/sphinx.git",
-			},
-			wantErr: false,
-		},
-		// https://github.com/retr0h/git-url-parse/issues/33
-		{
-			input: "https://github.com/tterranigma/Stouts.openvpn",
-			want: &repository{
-				protocol:  "https",
-				protocols: []string{"https"},
-				resource:  "github.com",
-				owner:     "tterranigma",
-				repo:      "Stouts.openvpn",
-				path:      "",
-				branch:    "",
-				provider:  "github",
-				href:      "https://github.com/tterranigma/Stouts.openvpn",
-			},
-			wantErr: false,
-		},
-		// https://github.com/retr0h/git-url-parse/issues/33
-		{
-			input: "https://github.com/tterranigma/Stouts.openvpn.git",
-			want: &repository{
-				protocol:  "https",
-				protocols: []string{"https"},
-				resource:  "github.com",
-				owner:     "tterranigma",
-				repo:      "Stouts.openvpn",
-				path:      "",
-				branch:    "",
-				provider:  "github",
-				href:      "https://github.com/tterranigma/Stouts.openvpn.git",
+				provider:  "bitbucket",
+				href:      "https://bitbucket.org/owner/repository",
 			},
 			wantErr: false,
 		},
 		{
-			input: "https://github.com/owner/repository/blob/main/files/file0.json",
+			input: "https://bitbucket.org/owner/repository/src/main/rules/etcd-encryption-native/raw.rego",
 			want: &repository{
 				protocol:  "https",
 				protocols: []string{"https"},
-				resource:  "github.com",
+				resource:  "bitbucket.org",
 				owner:     "owner",
 				repo:      "repository",
-				path:      "files/file0.json",
+				path:      "rules/etcd-encryption-native/raw.rego",
 				branch:    "main",
-				provider:  "github",
-				href:      "https://github.com/owner/repository/blob/main/files/file0.json",
+				provider:  "bitbucket",
+				href:      "https://bitbucket.org/owner/repository/src/main/rules/etcd-encryption-native/raw.rego",
 			},
 			wantErr: false,
 		},
 		{
-			input: "https://github.com/owner/repository/tree/main/files",
+			input: "https://bitbucket.org/owner/repository/src/dev/README.md",
 			want: &repository{
 				protocol:  "https",
 				protocols: []string{"https"},
-				resource:  "github.com",
+				resource:  "bitbucket.org",
 				owner:     "owner",
 				repo:      "repository",
-				path:      "files",
-				branch:    "main",
-				provider:  "github",
-				href:      "https://github.com/owner/repository/tree/main/files",
+				path:      "README.md",
+				branch:    "dev",
+				provider:  "bitbucket",
+				href:      "https://bitbucket.org/owner/repository/src/dev/README.md",
 			},
 			wantErr: false,
 		},
 		{
-			input: "https://raw.githubusercontent.com/owner/repository/main/files/file0.json",
+			input: "https://bitbucket.org/owner/repository/src/dev/",
 			want: &repository{
 				protocol:  "https",
 				protocols: []string{"https"},
-				resource:  "raw.githubusercontent.com",
-				owner:     "owner",
-				repo:      "repository",
-				path:      "files/file0.json",
-				branch:    "main",
-				provider:  "github",
-				href:      "https://raw.githubusercontent.com/owner/repository/main/files/file0.json",
-			},
-			wantErr: false,
-		},
-		{
-			input: "https://www.github.com/owner/repository",
-			want: &repository{
-				protocol:  "https",
-				protocols: []string{"https"},
-				resource:  "www.github.com",
+				resource:  "bitbucket.org",
 				owner:     "owner",
 				repo:      "repository",
 				path:      "",
-				branch:    "",
-				provider:  "github",
-				href:      "https://www.github.com/owner/repository",
+				branch:    "dev",
+				provider:  "bitbucket",
+				href:      "https://bitbucket.org/owner/repository/src/dev/",
 			},
 			wantErr: false,
 		},
 		{
-			input: "git@github.com:owner/repository.git",
+			input: "https://bitbucket.org/owner/repository/src/v1.0.178/README.md",
+			want: &repository{
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "bitbucket.org",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "README.md",
+				branch:    "v1.0.178",
+				provider:  "bitbucket",
+				href:      "https://bitbucket.org/owner/repository/src/v1.0.178/README.md",
+			},
+			wantErr: false,
+		},
+		{
+			input: "https://bitbucket.org/owner/repository/raw/4502b9b51ee3ac1ea649bacfa0f48ebdeab05f4a/README.md",
+			want: &repository{
+				protocol:  "https",
+				protocols: []string{"https"},
+				resource:  "bitbucket.org",
+				owner:     "owner",
+				repo:      "repository",
+				path:      "README.md",
+				branch:    "4502b9b51ee3ac1ea649bacfa0f48ebdeab05f4a",
+				provider:  "bitbucket",
+				href:      "https://bitbucket.org/owner/repository/raw/4502b9b51ee3ac1ea649bacfa0f48ebdeab05f4a/README.md",
+			},
+			wantErr: false,
+		},
+		// scp-like syntax supported by git for ssh
+		// see: https://mirrors.edge.kernel.org/pub/software/scm/git/docs/git-clone.html#URLS
+		// regular form
+		{
+			input: "git@bitbucket.org:owner/repository.git",
 			want: &repository{
 				protocol:  "git",
 				protocols: []string{"git"},
-				resource:  "github.com",
+				resource:  "bitbucket.org",
 				owner:     "owner",
 				repo:      "repository",
 				path:      "",
 				branch:    "",
-				provider:  "github",
-				href:      "git@github.com:owner/repository.git",
+				provider:  "bitbucket",
+				href:      "git@bitbucket.org:owner/repository.git",
 			},
 			wantErr: false,
 		},
 		// failure cases
 		{
-			input:   "https://github.com/",
+			input:   "https://bitbucket.org/",
 			want:    &repository{},
 			wantErr: true,
 		},
 		{
-			input:   "bogus://url/",
-			want:    &repository{},
-			wantErr: true,
-		},
-		{
-			input:   "git@github.com:foobar/owner/repository.git",
+			input:   "git@bitbucket.org:owner/to/repository.git",
 			want:    &repository{},
 			wantErr: true,
 		},

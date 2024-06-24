@@ -255,7 +255,6 @@ func (suite *ParserPublicTestSuite) TestParse() {
 			assert.Equal(suite.T(), tc.want.branch, got.GetBranchName())
 			assert.Equal(suite.T(), tc.want.provider, got.GetProviderName())
 		}
-
 	}
 }
 
