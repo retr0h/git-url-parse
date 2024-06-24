@@ -29,6 +29,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/retr0h/git-url-parse/internal"
+	"github.com/retr0h/git-url-parse/internal/repositories/bitbucket"
 	"github.com/retr0h/git-url-parse/internal/repositories/github"
 	"github.com/retr0h/git-url-parse/internal/repositories/gitlab"
 	"github.com/retr0h/git-url-parse/pkg/repository"
@@ -57,6 +58,11 @@ func (suite *RepositoryPublicTestSuite) TestRegisterParser() {
 
 	// add additional parser tests
 	tests := []test{
+		{
+			input:   "https://bitbucket.org/retr0h/foo",
+			want:    &bitbucket.Bitbucket{},
+			wantErr: false,
+		},
 		{
 			input:   "https://github.com/retr0h/foo",
 			want:    &github.GitHub{},

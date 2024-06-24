@@ -18,7 +18,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-package gitlab
+package bitbucket
 
 import (
 	"fmt"
@@ -30,30 +30,23 @@ import (
 )
 
 const (
-	providerName string = "gitlab"
+	providerName string = "bitbucket"
 )
 
 // ChatGPT-4 generated regexp
 var patterns = []string{
-	// TODO(retr0h): improve list of regexp
-	`^(?P<scheme>https?)://(?P<resource>[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+)(/(?:tree|blob)/(?P<branch>[^/]+)(?P<path>/.*)?)?$`,
-	`^(?P<scheme>https)://(?P<resource>gitlab\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/-/blob/(?P<branch>[^/]+)/(?P<path>.+)$`,
-	`^(?P<scheme>https)://(?P<resource>gitlab\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/-/tree/(?P<branch>[^/]+)$`,
-	`^(?P<scheme>https)://(?P<resource>gitlab\.com)/(?P<owner>[^/]+)/(?P<repo>[^/]+)/-/raw/(?P<branch>[^/]+)/(?P<path>.*)$`,
-	`^(?P<scheme>https)://(?P<resource>gitlab\.com)/(?P<owner>[^/]+)/((?P<subgroup>[^/]+)/)?(?P<repo>[^/]+)\.git$`,
-	`^(?P<scheme>https)://(?P<resource>gitlab\.com)/(?P<owner>[^/]+)(?P<subgroups>(?:/[^/]+)*)/(?P<repo>[^/]+)\.git$`,
-	`^(?P<scheme>https)://(?P<resource>gitlab\.[^/]+)/(?P<owner>[^/]+)/(?P<repo>[^/]+)$`,
-	`^(?P<scheme>git)@(?P<resource>gitlab\.com):(?P<owner>[^/]+)/(?P<repo>[^/]+)\.git$`,
+	`^(?P<scheme>https?)://(?P<resource>bitbucket\.org)/(?P<owner>[^/]+)/(?P<repo>[^/]+)(?:/(?P<type>src|raw)/(?P<branch>[^/]+)(/(?P<path>.*))?)?$`,
+	`^(?P<scheme>git)@(?P<resource>bitbucket\.org):(?P<owner>[^/]+)/(?P<repo>[^/]+)\.git$`,
 }
 
-// Parse the provided GitLab URL.
-func (gh *GitLab) Parse(url string) (*api.Repository, error) {
+// Parse the provided Bitbucket URL.
+func (b *Bitbucket) Parse(url string) (*api.Repository, error) {
 	for _, pattern := range patterns {
 		re := regexp.MustCompile(pattern)
 		matches := re.FindStringSubmatch(url)
 		mm := repositories.MakeMatchMap(re, matches)
 
-		gh.logger.Debug(
+		b.logger.Debug(
 			"matching url",
 			slog.String("url", url),
 			slog.String("regexp", pattern),
